@@ -16,7 +16,7 @@ gulp.task('doc', function(cb) {
 
   const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
-  require('fs').writeFileSync('./docs/swagger.json', JSON.stringify(swaggerSpec, null, 2));
+  require('fs').writeFileSync('./dist/docs/swagger.json', JSON.stringify(swaggerSpec, null, 2));
 
   cb();
 });
