@@ -5,7 +5,7 @@ const LeagueMember = require('../models/leagueMember');
 // Get all league members
 /**
  * @swagger
- * /leagueMembers:
+ * /league-members:
  *   get:
  *     summary: Get all league members
  *     tags:
@@ -44,6 +44,8 @@ router.get('/', async (req, res) => {
  * @swagger
  * /league-members/{league_member_id}:
  *   get:
+ *     tags:
+ *       - League Members
  *     summary: Get a single league member by league_member_id
  *     parameters:
  *       - in: path
@@ -71,7 +73,7 @@ router.get('/:league_member_id', getLeagueMember, (req, res) => {
 // Create a new league member
 /**
  * @swagger
- * /:
+ * /league-members:
  *   post:
  *     summary: Create a new league member
  *     tags: 
@@ -167,7 +169,7 @@ router.post('/', async (req, res) => {
 // Update a league member by league_member_id
 /**
  * @swagger
- * /leagueMembers/{league_member_id}:
+ * /league-members/{league_member_id}:
  *   patch:
  *     summary: Update a league member by league_member_id
  *     tags:
@@ -266,7 +268,7 @@ router.patch('/:league_member_id', getLeagueMember, async (req, res) => {
 // Delete one league member by league_member_id
 /**
  * @swagger
- * /leagueMembers/{league_member_id}:
+ * /league-members/{league_member_id}:
  *   delete:
  *     summary: Delete a single league member by league_member_id
  *     tags: 
@@ -298,11 +300,11 @@ router.delete('/:league_member_id', getLeagueMember, async (req, res) => {
 // Bulk delete league members by league_member_id
 /**
  * @swagger
- * /leagueMembers:
+ * /league-members:
  *   delete:
  *     summary: Delete multiple league members by their league_member_id
  *     tags:
- *       - LeagueMembers
+ *       - League Members
  *     requestBody:
  *       required: true
  *       content:

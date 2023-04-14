@@ -7,6 +7,8 @@ const Leagues = require('../models/leagues');
  * @swagger
  * /leagues:
  *   get:
+ *     tags:
+ *       - Leagues
  *     summary: Get all leagues
  *     description: Retrieve a list of all leagues in the database
  *     responses:
@@ -33,6 +35,8 @@ router.get('/', async (req, res) => {
  * @swagger
  * /leagues/{id}:
  *   get:
+ *     tags:
+ *       - Leagues
  *     summary: Get a single league by ID
  *     description: Retrieve a single league from the database by its ID
  *     parameters:
@@ -61,10 +65,10 @@ router.get('/:id', getLeague, (req, res) => {
  * @swagger
  * /leagues:
  *   post:
- *     summary: Create a new league
- *     description: Creates a new league with the specified details
  *     tags:
  *       - Leagues
+ *     summary: Create a new league
+ *     description: Creates a new league with the specified details
  *     requestBody:
  *       required: true
  *       content:
@@ -109,6 +113,8 @@ router.post('/', async (req, res) => {
  * @swagger
  * /leagues/{id}:
  *   put:
+ *     tags:
+ *       - Leagues
  *     summary: Update a league by ID
  *     description: Update an existing league in the database by its ID
  *     parameters:
@@ -179,6 +185,8 @@ router.put('/:id', getLeague, async (req, res) => {
  * @swagger
  * /leagues/{id}:
  *   delete:
+ *     tags:
+ *       - Leagues
  *     summary: Delete a league by ID
  *     description: Delete a league from the database by ID
  *     parameters:

@@ -9,6 +9,8 @@ const User = require('../models/user');
  *   get:
  *     summary: Get all users
  *     description: Retrieve a list of all users in the database
+ *     tags: 
+ *       - Users
  *     responses:
  *       200:
  *         description: A list of users
@@ -35,6 +37,8 @@ router.get('/', async (req, res) => {
  *   get:
  *     summary: Get a single user by ID
  *     description: Retrieve a single user from the database by its ID
+ *     tags: 
+ *       - Users
  *     parameters:
  *       - in: path
  *         name: id
@@ -63,7 +67,7 @@ router.get('/:id', getUser, (req, res) => {
  *   post:
  *     summary: Create a new user
  *     description: Creates a new user with the specified first name, last name, and email address
- *     tags:
+ *     tags: 
  *       - Users
  *     requestBody:
  *       required: true
@@ -120,6 +124,8 @@ router.post('/', async (req, res) => {
  *   put:
  *     summary: Update a user by ID
  *     description: Update an existing user in the database by its ID
+ *     tags: 
+ *       - Users
  *     parameters:
  *       - in: path
  *         name: id
@@ -175,6 +181,8 @@ router.put('/:id', getUser, async (req, res) => {
  *   delete:
  *     summary: Delete a user by ID
  *     description: Delete a user from the database by ID
+ *     tags: 
+ *       - Users
  *     parameters:
  *       - in: path
  *         name: id

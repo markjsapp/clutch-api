@@ -8,6 +8,8 @@ const Game = require('../models/game');
  * /games:
  *   get:
  *     summary: Get all games
+ *     tags:
+ *       - Games
  *     responses:
  *       200:
  *         description: Returns an array of all games
@@ -49,6 +51,8 @@ router.get('/', async (req, res) => {
  *           type: integer
  *         required: true
  *         description: Numeric ID of the game to get
+ *     tags:
+ *       - Games
  *     responses:
  *       200:
  *         description: Success
@@ -72,6 +76,8 @@ router.get('/:gameId', getGame, (req, res) => {
  *   post:
  *     summary: Create a new game
  *     description: Create a new game with the provided properties
+ *     tags:
+ *       - Games
  *     requestBody:
  *       required: true
  *       content:
@@ -354,7 +360,8 @@ router.patch('/:gameId', getGame, async (req, res) => {
  * /games/{id}:
  *   delete:
  *     summary: Delete a single game by gameId
- *     tags: [Games]
+ *     tags:
+ *       - Games
  *     parameters:
  *       - in: path
  *         name: id
