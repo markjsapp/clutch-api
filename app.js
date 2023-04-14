@@ -105,6 +105,36 @@ const swaggerOptions = {
             throw_average: {type: 'integer'},
             score_average: {type: 'integer'}
           }
+        },
+        Team: {
+          type: 'object',
+          properties: {
+            _id: {
+              type: 'string',
+              description: 'The unique identifier for the team'
+            },
+            name: {
+              type: 'string',
+              description: 'The name of the team'
+            },
+            members: {
+              type: 'array',
+              description: 'The members of the team',
+              items: {
+                type: 'object',
+                properties: {
+                  playerId: {
+                    type: 'number',
+                    description: 'The ID of the player'
+                  },
+                  playerName: {
+                    type: 'string',
+                    description: 'The name of the player'
+                  }
+                }
+              }
+            }
+          }
         }
       },
     },
@@ -112,7 +142,9 @@ const swaggerOptions = {
   apis: ['./routes/userRoutes.js',
   './routes/gameRoutes.js',
   './routes/leagueRoutes.js',
-  './routes/leagueMemberRoutes.js']
+  './routes/leagueMemberRoutes.js',
+  './routes/teamRoutes.js'
+]
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
