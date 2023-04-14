@@ -4,45 +4,6 @@ const User = require('../models/user');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
-// Swagger documentation options
-const swaggerOptions = {
-    definition: {
-      openapi: '3.0.0',
-      info: {
-        title: 'Axe Throwing API',
-        version: '1.0.0',
-        description: 'API for tracking axe throwing scores'
-      },
-      components: {
-        schemas: {
-          User: {
-            type: 'object',
-            properties: {
-              firstName: {
-                type: 'string'
-              },
-              lastName: {
-                type: 'string'
-              },
-              email: {
-                type: 'string',
-                format: 'email'
-              }
-            }
-          }
-        }
-      }
-    },
-    apis: ['./routes/userRoutes.js']
-  };  
-
-// Initialize Swagger documentation
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
-
-// Serve Swagger documentation
-router.use('/docs', swaggerUi.serve);
-router.get('/docs', swaggerUi.setup(swaggerSpec));
-
 // GET /users
 /**
  * @swagger

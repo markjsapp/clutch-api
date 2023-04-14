@@ -4,10 +4,10 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const userRoutes = require('./routes/userRoutes');
 const app = express();
-const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.mongodb.net/myapp?retryWrites=true&w=majority`;
+require('dotenv').config();
 
 // Set up MongoDB connection
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.log(err));
 
@@ -19,10 +19,58 @@ const swaggerOptions = {
       title: 'Axe Throwing API',
       version: '1.0.0',
       description: 'An API for tracking axe throwing scores'
-    }
+    },
+    components: {
+      schemas: {
+        User: {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+            },
+            lastName: {
+              type: 'string',
+            },
+            email: {
+              type: 'string',
+              format: 'email',
+            },
+            games: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Game',
+              },
+            },
+          },
+        },
+        Game: {
+          type: 'object',
+          properties: {
+            date: {
+              type: 'string',
+              format: 'date',
+            },
+            opponent: {
+              type: 'string',
+            },
+            score: {
+              type: 'number',
+            },
+            win: {
+              type: 'boolean',
+            },
+            killshots: {
+              type: 'number',
+            },
+          },
+        },
+      },
+    },
   },
-  apis: ['./routes/*.js']
+  apis: ['./routes/*.js'],
+  basePath: '/'
 };
+
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
