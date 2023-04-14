@@ -172,7 +172,7 @@ router.put('/:id', getTeam, async (req, res) => {
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
-  });
+});
   
 // DELETE /teams/:id
 /**
@@ -232,7 +232,175 @@ router.delete('/:id', getTeamAndCheckLeagues, async (req, res) => {
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
-  });  
+});
+
+// GET /teams/:id/members
+/**
+ * @swagger
+ * /teams/{id}/members:
+ *   get:
+ *     summary: Get all members on a team by ID
+ *     description: Retrieve a list of all members on a team by its ID
+ *     tags: 
+ *       - Teams
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the team to retrieve members from
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A list of team members
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   playerId:
+ *                     type: number
+ *                     description: The ID of the player
+ *                   playerName:
+ *                     type: string
+ *                     description: The name of the player
+ */
+router.get('/:id/members', getTeam, (req, res) => {
+    res.json(res.team.members);
+  });
+  
+  // POST /teams/:id/members
+  /**
+   * @swagger
+   * /teams/{id}/members:
+   *   post:
+   *     summary: Add a member to a team by ID
+   *     description: Add a new member to a team by its ID
+   *     tags: 
+   *       - Teams
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         description: ID of the team to add member to
+   *         schema:
+   *           type: string
+   *     requestBody:
+   *       description: Member object to add to team
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               playerId:
+   *                 type: number
+   *                 description: The ID of the player
+   *               playerName:
+   *                 type: string
+   *                 description: The name of the player
+   *             example:
+   *               playerId: 3
+   *               playerName: Jim
+   *     responses:
+   *       200:
+   *         description: The updated team object
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Team'
+   *       400:
+   *         description: Invalid request body
+   *       404:
+   *         description: Team not found
+   */
+router.post('/:id/members', getTeam, async (req, res) => {
+    const member = {
+      playerId: req.body.playerId,
+      playerName: req.body.playerName
+    };
+    res.team.members.push(member);
+  
+    try {
+      const updatedTeam = await res.team.save();
+      res.json(updatedTeam);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+});
+
+// DELETE /teams/:id/members/:memberId
+/**
+ * @swagger
+ * /teams/{id}/members/{memberId}:
+ *   delete:
+ *     summary: Remove a member from a team by ID
+ *     description: Remove a member from a team in the database by ID
+ *     tags: 
+ *       - Teams
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the team to remove a member from
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: memberId
+ *         required: true
+ *         description: ID of the member to remove
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Member removed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A message confirming that the member was removed successfully
+ *                   example: Member removed
+ *       404:
+ *         description: Team or member not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A message indicating that the specified team or member was not found
+ *                   example: Team or member not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: A message indicating that an error occurred while removing the member
+ *                   example: An error occurred while removing the member
+ */
+router.delete('/:id/members/:memberId', getTeam, async (req, res) => {
+    const member = res.team.members.id(req.params.memberId);
+    if (member == null) {
+      return res.status(404).json({ message: 'Member not found' });
+    }
+    try {
+      member.remove();
+      await res.team.save();
+      res.json({ message: 'Member removed' });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+});  
   
 // Middleware function to get a team by ID
 async function getTeam(req, res, next) {
