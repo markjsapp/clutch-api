@@ -1,0 +1,1669 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Clutch API",
+    "version": "1.0.0",
+    "description": "API for axe throwing"
+  },
+  "paths": {
+    "/games": {
+      "get": {
+        "summary": "Get all games",
+        "tags": [
+          "Games"
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of all games",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Game"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new game",
+        "description": "Create a new game with the provided properties",
+        "tags": [
+          "Games"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gameId": {
+                    "type": "number",
+                    "description": "The ID of the game",
+                    "example": 123
+                  },
+                  "player1Id": {
+                    "type": "number",
+                    "description": "The ID of the first player",
+                    "example": 1
+                  },
+                  "player2Id": {
+                    "type": "number",
+                    "description": "The ID of the second player",
+                    "example": 2
+                  },
+                  "leagueGame": {
+                    "type": "boolean",
+                    "description": "Indicates if the game is a league game or not",
+                    "example": true
+                  },
+                  "gameType": {
+                    "type": "string",
+                    "description": "The type of the game (e.g. singles, doubles)",
+                    "example": "singles"
+                  },
+                  "ruleType": {
+                    "type": "string",
+                    "description": "The type of the game rules (e.g. WATL, IATF)",
+                    "example": "WATL"
+                  },
+                  "rounds": {
+                    "type": "number",
+                    "description": "The number of rounds in the game",
+                    "example": 10
+                  },
+                  "winningScore": {
+                    "type": "number",
+                    "description": "The winning score for the game",
+                    "example": 21
+                  },
+                  "player1Score": {
+                    "type": "number",
+                    "description": "The score of the first player",
+                    "example": 21
+                  },
+                  "player2Score": {
+                    "type": "number",
+                    "description": "The score of the second player",
+                    "example": 19
+                  },
+                  "player1Sticks": {
+                    "type": "number",
+                    "description": "The number of sticks for the first player",
+                    "example": 3
+                  },
+                  "player2Sticks": {
+                    "type": "number",
+                    "description": "The number of sticks for the second player",
+                    "example": 2
+                  },
+                  "player1Drops": {
+                    "type": "number",
+                    "description": "The number of drops for the first player",
+                    "example": 0
+                  },
+                  "player2Drops": {
+                    "type": "number",
+                    "description": "The number of drops for the second player",
+                    "example": 1
+                  },
+                  "seasonName": {
+                    "type": "string",
+                    "description": "The name of the season",
+                    "example": "Fall 2022"
+                  },
+                  "seasonId": {
+                    "type": "number",
+                    "description": "The ID of the season",
+                    "example": 456
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The newly created game",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Some required fields may be missing or invalid."
+          },
+          "500": {
+            "description": "Internal server error. Something went wrong on the server."
+          }
+        }
+      }
+    },
+    "/games/{gameId}": {
+      "get": {
+        "summary": "Get a single game by gameId",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "gameId",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the game to get"
+          }
+        ],
+        "tags": [
+          "Games"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Game not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a game by gameId",
+        "description": "Update a specific game using its gameId.",
+        "tags": [
+          "Games"
+        ],
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "path",
+            "description": "The ID of the game to update",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The fields to update for the game",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "gameId": {
+                    "type": "integer"
+                  },
+                  "player1Id": {
+                    "type": "integer"
+                  },
+                  "player2Id": {
+                    "type": "integer"
+                  },
+                  "leagueGame": {
+                    "type": "boolean",
+                    "description": "Indicates if the game is part of a league"
+                  },
+                  "gameType": {
+                    "type": "string",
+                    "description": "The type of game played"
+                  },
+                  "ruleType": {
+                    "type": "string",
+                    "description": "The rule set used for the game"
+                  },
+                  "rounds": {
+                    "type": "integer",
+                    "description": "The number of rounds in the game"
+                  },
+                  "winningScore": {
+                    "type": "integer",
+                    "description": "The score needed to win the game"
+                  },
+                  "player1Score": {
+                    "type": "integer",
+                    "description": "The score of player 1"
+                  },
+                  "player2Score": {
+                    "type": "integer",
+                    "description": "The score of player 2"
+                  },
+                  "player1Sticks": {
+                    "type": "integer",
+                    "description": "The number of sticks thrown by player 1"
+                  },
+                  "player2Sticks": {
+                    "type": "integer",
+                    "description": "The number of sticks thrown by player 2"
+                  },
+                  "player1Drops": {
+                    "type": "integer",
+                    "description": "The number of drops by player 1"
+                  },
+                  "player2Drops": {
+                    "type": "integer",
+                    "description": "The number of drops by player 2"
+                  },
+                  "seasonName": {
+                    "type": "string",
+                    "description": "The name of the season the game was played in"
+                  },
+                  "seasonId": {
+                    "type": "integer",
+                    "description": "The ID of the season the game was played in"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A successful response, returns the updated game object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Game"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid fields provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Description of the error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Game not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Description of the error"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Description of the error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/games/{id}": {
+      "delete": {
+        "summary": "Delete a single game by gameId",
+        "tags": [
+          "Games"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the game to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The deleted game",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message confirming the game has been deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The game with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/games/{ids}": {
+      "delete": {
+        "summary": "Delete multiple games by gameIds",
+        "tags": [
+          "Games"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ids",
+            "required": true,
+            "description": "Comma-separated list of gameIds to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Number of games deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "n": {
+                      "type": "number",
+                      "description": "Number of games deleted"
+                    },
+                    "ok": {
+                      "type": "number",
+                      "description": "Indicates if the operation was successful (1) or not (0)"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/league-members": {
+      "get": {
+        "summary": "Get all league members",
+        "tags": [
+          "League Members"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of league members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LeagueMember"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new league member",
+        "tags": [
+          "League Members"
+        ],
+        "requestBody": {
+          "description": "Object containing details of the new league member",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "league_member_id": {
+                    "type": "integer"
+                  },
+                  "league_id": {
+                    "type": "integer"
+                  },
+                  "league_member_first_name": {
+                    "type": "string"
+                  },
+                  "league_member_last_name": {
+                    "type": "string"
+                  },
+                  "league_member_nickname": {
+                    "type": "string"
+                  },
+                  "games_won_in_league": {
+                    "type": "integer"
+                  },
+                  "games_lost_in_league": {
+                    "type": "integer"
+                  },
+                  "games_tied_in_league": {
+                    "type": "integer"
+                  },
+                  "date_joined": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "example": {
+                  "league_member_id": 1,
+                  "league_id": 1,
+                  "league_member_first_name": "John",
+                  "league_member_last_name": "Doe",
+                  "league_member_nickname": "JD",
+                  "games_won_in_league": 10,
+                  "games_lost_in_league": 5,
+                  "games_tied_in_league": 3,
+                  "date_joined": "2023-04-14"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "New league member created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeagueMember"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Invalid request body"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Internal server error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete multiple league members by their league_member_id",
+        "tags": [
+          "League Members"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "league_member_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/league-members/{league_member_id}": {
+      "get": {
+        "tags": [
+          "League Members"
+        ],
+        "summary": "Get a single league member by league_member_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "league_member_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the league member to retrieve"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "League member found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeagueMember"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "League member not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a league member by league_member_id",
+        "tags": [
+          "League Members"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "league_member_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "Numeric ID of the league member to update"
+          },
+          {
+            "in": "body",
+            "name": "leagueMember",
+            "description": "Fields for the league member resource",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "league_member_id": {
+                  "type": "integer"
+                },
+                "league_id": {
+                  "type": "integer"
+                },
+                "league_member_first_name": {
+                  "type": "string"
+                },
+                "league_member_last_name": {
+                  "type": "string"
+                },
+                "league_member_nickname": {
+                  "type": "string"
+                },
+                "games_won_in_league": {
+                  "type": "integer"
+                },
+                "games_lost_in_league": {
+                  "type": "integer"
+                },
+                "games_tied_in_league": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "league_member_id": {
+                      "type": "integer"
+                    },
+                    "league_id": {
+                      "type": "integer"
+                    },
+                    "league_member_first_name": {
+                      "type": "string"
+                    },
+                    "league_member_last_name": {
+                      "type": "string"
+                    },
+                    "league_member_nickname": {
+                      "type": "string"
+                    },
+                    "games_won_in_league": {
+                      "type": "integer"
+                    },
+                    "games_lost_in_league": {
+                      "type": "integer"
+                    },
+                    "games_tied_in_league": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a single league member by league_member_id",
+        "tags": [
+          "League Members"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "league_member_id",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true,
+            "description": "The ID of the league member to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "League member deleted"
+          },
+          "404": {
+            "description": "League member not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/leagues": {
+      "get": {
+        "tags": [
+          "Leagues"
+        ],
+        "summary": "Get all leagues",
+        "description": "Retrieve a list of all leagues in the database",
+        "responses": {
+          "200": {
+            "description": "A list of leagues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/League"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Leagues"
+        ],
+        "summary": "Create a new league",
+        "description": "Creates a new league with the specified details",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeagueRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The newly created league",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/League"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/leagues/{id}": {
+      "get": {
+        "tags": [
+          "Leagues"
+        ],
+        "summary": "Get a single league by ID",
+        "description": "Retrieve a single league from the database by its ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the league to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single league object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/League"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "League not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Leagues"
+        ],
+        "summary": "Update a league by ID",
+        "description": "Update an existing league in the database by its ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the league to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "League object to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeagueRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "An updated league object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/League"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "404": {
+            "description": "League not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Leagues"
+        ],
+        "summary": "Delete a league by ID",
+        "description": "Delete a league from the database by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the league to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "League deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message confirming that the league was deleted successfully",
+                      "example": "League deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "League not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that the specified league was not found",
+                      "example": "League not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that an error occurred while deleting the league",
+                      "example": "An error occurred while deleting the league"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teams": {
+      "get": {
+        "summary": "Get all teams",
+        "description": "Retrieve a list of all teams in the database",
+        "tags": [
+          "Teams"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of teams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Team"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new team",
+        "description": "Creates a new team with the specified name and members",
+        "tags": [
+          "Teams"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the team"
+                  },
+                  "members": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "playerId": {
+                          "type": "number",
+                          "description": "The ID of the player"
+                        },
+                        "playerName": {
+                          "type": "string",
+                          "description": "The name of the player"
+                        }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "name": "The Choppers",
+                  "members": [
+                    {
+                      "playerId": 1,
+                      "playerName": "John"
+                    },
+                    {
+                      "playerId": 2,
+                      "playerName": "Jane"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The newly created team",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/teams/{id}": {
+      "get": {
+        "summary": "Get a single team by ID",
+        "description": "Retrieve a single team from the database by its ID",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the team to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single team object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Team not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a team by ID",
+        "description": "Update an existing team in the database by its ID",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the team to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Team object to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "An updated team object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "404": {
+            "description": "Team not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a team by ID",
+        "description": "Delete a team from the database by ID",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the team to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Team deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message confirming that the team was deleted successfully",
+                      "example": "Team deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Team not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that the specified team was not found",
+                      "example": "Team not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that an error occurred while deleting the team",
+                      "example": "An error occurred while deleting the team"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teams/{id}/members": {
+      "get": {
+        "summary": "Get all members on a team by ID",
+        "description": "Retrieve a list of all members on a team by its ID",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the team to retrieve members from",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of team members",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "playerId": {
+                        "type": "number",
+                        "description": "The ID of the player"
+                      },
+                      "playerName": {
+                        "type": "string",
+                        "description": "The name of the player"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a member to a team by ID",
+        "description": "Add a new member to a team by its ID",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the team to add member to",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Member object to add to team",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "playerId": {
+                    "type": "number",
+                    "description": "The ID of the player"
+                  },
+                  "playerName": {
+                    "type": "string",
+                    "description": "The name of the player"
+                  }
+                },
+                "example": {
+                  "playerId": 3,
+                  "playerName": "Jim"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated team object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "404": {
+            "description": "Team not found"
+          }
+        }
+      }
+    },
+    "/teams/{id}/members/{memberId}": {
+      "delete": {
+        "summary": "Remove a member from a team by ID",
+        "description": "Remove a member from a team in the database by ID",
+        "tags": [
+          "Teams"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the team to remove a member from",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "memberId",
+            "required": true,
+            "description": "ID of the member to remove",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Member removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message confirming that the member was removed successfully",
+                      "example": "Member removed"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Team or member not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that the specified team or member was not found",
+                      "example": "Team or member not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that an error occurred while removing the member",
+                      "example": "An error occurred while removing the member"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get all users",
+        "description": "Retrieve a list of all users in the database",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new user",
+        "description": "Creates a new user with the specified first name, last name, and email address",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstName": {
+                    "type": "string",
+                    "description": "The first name of the user"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "description": "The last name of the user"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "The email address of the user"
+                  }
+                },
+                "example": {
+                  "firstName": "John",
+                  "lastName": "Doe",
+                  "email": "john.doe@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The newly created user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Get a single user by ID",
+        "description": "Retrieve a single user from the database by its ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A single user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a user by ID",
+        "description": "Update an existing user in the database by its ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "User object to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "An updated user object",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a user by ID",
+        "description": "Delete a user from the database by ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the user to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message confirming that the user was deleted successfully",
+                      "example": "User deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that the specified user was not found",
+                      "example": "User not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A message indicating that an error occurred while deleting the user",
+                      "example": "An error occurred while deleting the user"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}
