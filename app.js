@@ -16,59 +16,103 @@ const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Axe Throwing API',
+      title: 'Clutch API',
       version: '1.0.0',
-      description: 'An API for tracking axe throwing scores'
+      description: 'API for axe throwing',
     },
     components: {
       schemas: {
         User: {
           type: 'object',
           properties: {
-            firstName: {
-              type: 'string',
-            },
-            lastName: {
-              type: 'string',
-            },
-            email: {
-              type: 'string',
-              format: 'email',
-            },
-            games: {
-              type: 'array',
-              items: {
-                $ref: '#/components/schemas/Game',
-              },
-            },
+            player_id: { type: 'integer' },
+            firstName: { type: 'string' },
+            lastName: { type: 'string' },
+            user_type: { type: 'string', enum: ['player', 'admin', 'league_captain'] },
+            total_wins: { type: 'integer' },
+            total_losses: { type: 'integer' },
+            win_percent: { type: 'integer' },
+            killshots: { type: 'integer' },
+            killshot_percent: { type: 'integer' },
+            average_score: { type: 'integer' },
+            date_created: { type: 'string', format: 'date-time' },
+            date_updated: { type: 'string', format: 'date-time' },
+            number_of_games_played: { type: 'integer' },
+            perfect_games: { type: 'integer' },
+            perfect_matches: { type: 'integer' },
+            phone_number: { type: 'integer' },
+            email: { type: 'string', format: 'email' },
+            high_score: { type: 'integer' },
+            seasons_played: { type: 'integer' },
+            league_member_id: { type: 'integer' },
+            nickname: { type: 'string' },
+            profile_picture: { type: 'string' },
+            throws_made: { type: 'integer' },
+            bullseyes: { type: 'integer' },
+            unicorns: { type: 'integer' },
+            total_ties: { type: 'integer' },
+            odd_ball_throws: { type: 'integer' },
+            drops: { type: 'integer' }
           },
         },
         Game: {
           type: 'object',
           properties: {
-            date: {
-              type: 'string',
-              format: 'date',
-            },
-            opponent: {
-              type: 'string',
-            },
-            score: {
-              type: 'number',
-            },
-            win: {
-              type: 'boolean',
-            },
-            killshots: {
-              type: 'number',
-            },
+            game_id: { type: 'integer' },
+            player_1_id: { type: 'integer' },
+            player_2_id: { type: 'integer' },
+            league_game: { type: 'boolean' },
+            game_type: { type: 'string' },
+            rule_type: { type: 'string' },
+            rounds: { type: 'integer' },
+            winning_score: { type: 'integer' },
+            player_1_score: { type: 'integer' },
+            player_2_score: { type: 'integer' },
+            player_1_sticks: { type: 'integer' },
+            player_2_sticks: { type: 'integer' },
+            player_1_drops: { type: 'integer' },
+            player_2_drops: { type: 'integer' },
+            season_name: { type: 'string' },
+            season_id: { type: 'integer' },
+            date_created: { type: 'string', format: 'date-time' },
+            date_updated: { type: 'string', format: 'date-time' }
           },
         },
+        LeagueMember: {
+          type: 'object',
+          properties: {
+            league_member_id: { type: 'integer' },
+            league_id: { type: 'integer' },
+            league_member_first_name: { type: 'string' },
+            league_member_last_name: { type: 'string' },
+            league_member_nickname: { type: 'string' },
+            games_won_in_league: { type: 'integer' },
+            games_lost_in_league: { type: 'integer' },
+            games_tied_in_league: { type: 'integer' },
+            date_joined: { type: 'string', format: 'date-time' },
+          }
+        },
+        League: {
+          type: 'object',
+          properties: {
+            league_id: {type: 'integer'},
+            league_name: {type: 'string' },
+            league_type: {type: 'string', enum: ['STANDARD', 'DUO', 'OTHER'] },
+            rule_type: {type: 'string', enum: ['WATL', 'IATF', 'OTHER'] },
+            game_type: {type: 'string'},
+            number_of_matches: {type: 'integer'},
+            killshot_average: {type: 'integer'},
+            throw_average: {type: 'integer'},
+            score_average: {type: 'integer'}
+          }
+        }
       },
     },
   },
-  apis: ['./routes/*.js'],
-  basePath: '/'
+  apis: ['./routes/userRoutes.js',
+  './routes/gameRoutes.js',
+  './routes/leagueRoutes.js',
+  './routes/leagueMemberRoutes.js']
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
