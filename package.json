@@ -8,6 +8,7 @@
     "swagger-ui-express": "^4.6.2"
   },
   "scripts": {
+    "doc": "gulp",
     "prestart": "gulp doc",
     "start": "node app.js"
   },  
