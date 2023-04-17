@@ -116,7 +116,7 @@ const swaggerOptions = {
               type: 'string',
               description: 'The unique identifier for the team'
             },
-            name: {
+            teamName: {
               type: 'string',
               description: 'The name of the team'
             },
@@ -124,21 +124,52 @@ const swaggerOptions = {
               type: 'array',
               description: 'The members of the team',
               items: {
-                type: 'object',
-                properties: {
-                  playerId: {
-                    type: 'number',
-                    description: 'The ID of the player'
-                  },
-                  playerName: {
-                    type: 'string',
-                    description: 'The name of the player'
-                  }
+                $ref: '#/components/schemas/User'
+              }
+            },
+            leagueId: {
+              type: 'string',
+              description: 'The league ID the team belongs to'
+            },
+            dateCreated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the team was created'
+            },
+            dateUpdated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the team was last updated'
+            },
+            gamesPlayed: {
+              type: 'integer',
+              description: 'The number of games played by the team'
+            },
+            winLossRecord: {
+              type: 'object',
+              description: 'The win-loss record of the team',
+              properties: {
+                wins: {
+                  type: 'integer',
+                  description: 'The number of wins'
+                },
+                losses: {
+                  type: 'integer',
+                  description: 'The number of losses'
                 }
               }
+            },
+            captain: {
+              type: 'string',
+              description: 'The ID of the team captain'
+            },
+            teamLogo: {
+              type: 'string',
+              format: 'binary',
+              description: 'The binary representation of the team logo'
             }
           }
-        }
+        }        
       },
     },
   },

@@ -1,5 +1,5 @@
 # Clutch Axe Throwing API
-
+![swagger](./clutch-api.JPG)
 This is a RESTful API for tracking axe throwing games,scores, users, and more.
 
 ## Installation and Setup
@@ -28,21 +28,7 @@ The server will start running at http://localhost:3000.
 The API documentation is available at http://localhost:3000/docs. You can use Swagger UI to explore the API endpoints and interact with the API.
 
 ## API Endpoints
-### GET /users
-
-Retrieve a list of all users in the database.
-### GET /users/:id
-
-Retrieve a user by ID.
-### POST /users
-
-Create a new user.
-### PUT /users/:id
-
-Update a user by ID.
-### DELETE /users/:id
-
-Delete a user by ID.
+Endpoint information/documentation can be found [here](https://clutch-axe-api.s3.amazonaws.com/docs/index.html)
 
 ## License
 
