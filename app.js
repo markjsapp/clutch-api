@@ -6,6 +6,9 @@ const userRoutes = require('./routes/userRoutes');
 const app = express();
 require('dotenv').config();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Set up MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))

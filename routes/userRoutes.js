@@ -60,6 +60,7 @@ router.get('/:id', getUser, (req, res) => {
   res.json(res.user);
 });
 
+// Add a check to make sure the phone number is x amount and also not a string
 // POST /users
 /**
  * @swagger
@@ -106,7 +107,10 @@ router.post('/', async (req, res) => {
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    email: req.body.email
+    email: req.body.email,
+    playerId: req.body.playerId,
+    userType: req.body.userType,
+    phoneNumber: req.body.phoneNumber
   });
 
   try {
@@ -117,6 +121,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Needs error handling for passing invalid params
 // PUT /users/:id
 /**
  * @swagger
@@ -227,7 +232,7 @@ router.put('/:id', getUser, async (req, res) => {
  */
 router.delete('/:id', getUser, async (req, res) => {
   try {
-    await res.user.remove();
+    await User.deleteOne({ _id: res.user._id });
     res.json({ message: 'User deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });

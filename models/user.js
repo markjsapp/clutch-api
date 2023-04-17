@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  player_id: {
+  playerId: {
     type: Number,
     required: true,
     unique: true
@@ -21,47 +21,48 @@ const userSchema = new mongoose.Schema({
   },
   totalWins: {
     type: Number,
-    required: true
+    required: false
   },
   totalLosses: {
     type: Number,
-    required: true
+    required: false
   },
   winPercent: {
     type: Number,
-    required: true
+    required: false
   },
   killshots: {
     type: Number,
-    required: true
+    required: false
   },
   killshotPercent: {
     type: Number,
-    required: true
+    required: false
   },
   averageScore: {
     type: Number,
-    required: true
+    required: false
   },
   dateCreated: {
     type: Date,
-    required: true
+    required: false
   },
   dateUpdated: {
     type: Date,
-    required: true
+    //update the logic for this later
+    required: false
   },
   numberOfGamesPlayed: {
     type: Number,
-    required: true
+    required: false
   },
   perfectGames: {
     type: Number,
-    required: true
+    required: false
   },
   perfectMatches: {
     type: Number,
-    required: true
+    required: false
   },
   phoneNumber: {
     type: Number,
@@ -74,47 +75,47 @@ const userSchema = new mongoose.Schema({
   },
   highScore: {
     type: Number,
-    required: true
+    required: false
   },
   seasonsPlayed: {
     type: Number,
-    required: true
+    required: false
   },
   leagueMemberId: {
     type: Number,
-    required: true
+    required: false
   },
   nickname: {
     type: String,
-    required: true
+    required: false
   },
   profilePicture: {
     type: Buffer,
-    required: true
+    required: false
   },
   throwsMade: {
     type: Number,
-    required: true
+    required: false
   },
   bullseyes: {
     type: Number,
-    required: true
+    required: false
   },
   unicorns: {
     type: Number,
-    required: true
+    required: false
   },
   totalTies: {
     type: Number,
-    required: true
+    required: false
   },
   oddBallThrows: {
     type: Number,
-    required: true
+    required: false
   },
   drops: {
     type: Number,
-    required: true
+    required: false
   }
 });
 
