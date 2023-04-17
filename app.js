@@ -169,7 +169,57 @@ const swaggerOptions = {
               description: 'The binary representation of the team logo'
             }
           }
-        }        
+        },
+        Season: {
+          type: 'object',
+          properties: {
+            seasonId: {
+              type: 'number',
+              description: 'The unique identifier for the season'
+            },
+            seasonName: {
+              type: 'string',
+              description: 'The name of the season'
+            },
+            startDate: {
+              type: 'string',
+              format: 'date',
+              description: 'The start date of the season'
+            },
+            endDate: {
+              type: 'string',
+              format: 'date',
+              description: 'The end date of the season'
+            },
+            games: {
+              type: 'array',
+              description: 'The games played during the season',
+              items: {
+                type: 'object',
+                properties: {
+                  gameId: {
+                    type: 'number',
+                    description: 'The ID of the game'
+                  },
+                  gameName: {
+                    type: 'string',
+                    description: 'The name of the game'
+                  }
+                }
+              }
+            },
+            dateCreated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the season was created'
+            },
+            dateUpdated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the season was last updated'
+            }
+          }
+        }
       },
     },
   },
@@ -177,7 +227,8 @@ const swaggerOptions = {
   './routes/gameRoutes.js',
   './routes/leagueRoutes.js',
   './routes/leagueMemberRoutes.js',
-  './routes/teamRoutes.js'
+  './routes/teamRoutes.js',
+  './routes/season.js'
 ]
 };
 
