@@ -116,7 +116,7 @@ const swaggerOptions = {
               type: 'string',
               description: 'The unique identifier for the team'
             },
-            name: {
+            teamName: {
               type: 'string',
               description: 'The name of the team'
             },
@@ -124,18 +124,99 @@ const swaggerOptions = {
               type: 'array',
               description: 'The members of the team',
               items: {
+                $ref: '#/components/schemas/User'
+              }
+            },
+            leagueId: {
+              type: 'string',
+              description: 'The league ID the team belongs to'
+            },
+            dateCreated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the team was created'
+            },
+            dateUpdated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the team was last updated'
+            },
+            gamesPlayed: {
+              type: 'integer',
+              description: 'The number of games played by the team'
+            },
+            winLossRecord: {
+              type: 'object',
+              description: 'The win-loss record of the team',
+              properties: {
+                wins: {
+                  type: 'integer',
+                  description: 'The number of wins'
+                },
+                losses: {
+                  type: 'integer',
+                  description: 'The number of losses'
+                }
+              }
+            },
+            captain: {
+              type: 'string',
+              description: 'The ID of the team captain'
+            },
+            teamLogo: {
+              type: 'string',
+              format: 'binary',
+              description: 'The binary representation of the team logo'
+            }
+          }
+        },
+        Season: {
+          type: 'object',
+          properties: {
+            seasonId: {
+              type: 'number',
+              description: 'The unique identifier for the season'
+            },
+            seasonName: {
+              type: 'string',
+              description: 'The name of the season'
+            },
+            startDate: {
+              type: 'string',
+              format: 'date',
+              description: 'The start date of the season'
+            },
+            endDate: {
+              type: 'string',
+              format: 'date',
+              description: 'The end date of the season'
+            },
+            games: {
+              type: 'array',
+              description: 'The games played during the season',
+              items: {
                 type: 'object',
                 properties: {
-                  playerId: {
+                  gameId: {
                     type: 'number',
-                    description: 'The ID of the player'
+                    description: 'The ID of the game'
                   },
-                  playerName: {
+                  gameName: {
                     type: 'string',
-                    description: 'The name of the player'
+                    description: 'The name of the game'
                   }
                 }
               }
+            },
+            dateCreated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the season was created'
+            },
+            dateUpdated: {
+              type: 'string',
+              format: 'date-time',
+              description: 'The date the season was last updated'
             }
           }
         }
@@ -146,7 +227,8 @@ const swaggerOptions = {
   './routes/gameRoutes.js',
   './routes/leagueRoutes.js',
   './routes/leagueMemberRoutes.js',
-  './routes/teamRoutes.js'
+  './routes/teamRoutes.js',
+  './routes/season.js'
 ]
 };
 
