@@ -25,7 +25,8 @@ The server will start running at http://localhost:3000.
 
 ## API Documentation
 
-The API documentation is available at http://localhost:3000/docs. You can use Swagger UI to explore the API endpoints and interact with the API.
+The API documentation is available [here](https://clutch-axe-api.s3.amazonaws.com/docs/index.html
+). You can use Swagger UI to explore the API endpoints and interact with the API.
 
 ## API Endpoints
 Endpoint information/documentation can be found [here](https://clutch-axe-api.s3.amazonaws.com/docs/index.html)
