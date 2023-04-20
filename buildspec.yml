@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14 # You can choose a specific Node.js version here
+    commands:
+      - echo Installing dependencies...
+      - npm install
+  generate-swagger-docs:
+    commands:
+      - echo Compiling new Swagger documentation...
+      - npm run prestart
+  build:
+    commands:
+      - echo Building the app...
+      - npm run start
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
