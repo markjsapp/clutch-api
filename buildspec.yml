@@ -7,7 +7,7 @@ phases:
     commands:
       - echo Installing dependencies...
       - npm install
-  generate-swagger-docs:
+  pre_build:
     commands:
       - echo Compiling new Swagger documentation...
       - npm run prestart
