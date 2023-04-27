@@ -2,17 +2,40 @@ const express = require('express');
 const mongoose = require('mongoose');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const userRoutes = require('./routes/userRoutes');
+const usersRouter = require('./routes/userRoutes');
+const leaguesRouter = require('./routes/leagueRoutes');
+const teamsRouter = require('./routes/teamRoutes');
+const gamesRouter = require('./routes/gameRoutes');
+const seasonRouter = require('./routes/seasonRoutes');
+
 const app = express();
 require('dotenv').config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Set up MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.log(err));
+// Wrap the server setup in an async function
+const startServer = async () => {
+  try {
+    // Set up MongoDB connection
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Connected to MongoDB');
+
+    // Start the server
+    const port = process.env.PORT || 8081;
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// Call the async function to start the server
+startServer();
 
 // Set up Swagger documentation
 const swaggerOptions = {
@@ -228,7 +251,7 @@ const swaggerOptions = {
   './routes/leagueRoutes.js',
   './routes/leagueMemberRoutes.js',
   './routes/teamRoutes.js',
-  './routes/season.js'
+  './routes/seasonRoutes.js'
 ]
 };
 
@@ -242,10 +265,8 @@ app.get('/swagger.json', (req, res) => {
 });
 
 // Set up API routes
-app.use('/users', userRoutes);
-
-// Start the server
-const port = process.env.PORT || 8081;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+app.use('/users', usersRouter);
+app.use('/leagues', leaguesRouter);
+app.use('/teams', teamsRouter);
+app.use('/games', gamesRouter);
+app.use('/season', seasonRouter);
