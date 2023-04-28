@@ -16,6 +16,7 @@ Create a .env file in the root directory of your project and add the following l
 ```MONGODB_URI=mongodb+srv:/{username}:{password}@clutch-backend-api.zwp2x1e.mongodb.net/?retryWrites=true&w=majority
 MONGODB_USER={username}
 MONGODB_PASS={password}
+MONGODB_URI={URI provided by MongoDB for DB access}
 ```
 
 Note: Replace {username} and {password} with your actual MongoDB username and password.
