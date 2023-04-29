@@ -22,7 +22,7 @@ MONGODB_URI={URI provided by MongoDB for DB access}
 Note: Replace {username} and {password} with your actual MongoDB username and password.
 
 Start the server: ```npm start```
-The server will start running at http://localhost:3000.
+The server will start running at http://localhost:8081.
 
 ## Workflow
 ![workflow](./workflow.png)
